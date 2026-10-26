@@ -1,15 +1,22 @@
-Image-Handling-and-Pixel-Transformations-Using-OpenCV
-AIM:
+# Image-Handling-and-Pixel-Transformations-Using-OpenCV
+
+# AIM:
 Write a Python program using OpenCV that performs the following tasks:
 
 Read and Display an Image.
+
 Adjust the brightness of an image.
+
 Modify the image contrast.
+
 Generate a third image using bitwise operations.
-Software Required:
+
+# Software Required:
+
 Anaconda - Python 3.7
 Jupyter Notebook (for interactive development and execution)
-Algorithm:
+
+# Algorithm:
 Step 1:
 Load an image from your local directory and display it.
 
@@ -27,71 +34,168 @@ Display the original, lower contrast, and higher contrast images.
 Step 5:
 Split the image (boy.jpg) into B, G, R components and display the channels
 
-Program Developed By:
-Name: [Your Name Here]
+#Program Developed By:
+Name: Yuuvasri R
 
 Register Number: 212225230313
 
 Ex. No. 01
-1. Read the image ('Eagle_in_Flight.jpg') using OpenCV imread() as a grayscale image.
-# YOUR CODE HERE
-2. Print the image width, height & Channel.
-# YOUR CODE HERE
-3. Display the image using matplotlib imshow().
-# YOUR CODE HERE
-4. Save the image as a PNG file using OpenCV imwrite().
-# YOUR CODE HERE
-5. Read the saved image above as a color image using cv2.cvtColor().
-# YOUR CODE HERE
-6. Display the Colour image using matplotlib imshow() & Print the image width, height & channel.
-# YOUR CODE HERE
-7. Crop the image to extract any specific (Eagle alone) object from the image.
-# YOUR CODE HERE
-8. Resize the image up by a factor of 2x.
-# YOUR CODE HERE
-9. Flip the cropped/resized image horizontally.
-# YOUR CODE HERE
-10. Read in the image ('Apollo-11-launch.jpg').
-# YOUR CODE HERE
-11. Add the following text to the dark area at the bottom of the image (centered on the image):
-text = 'Apollo 11 Saturn V Launch, July 16, 1969'
-font_face = cv2.FONT_HERSHEY_PLAIN
-# YOUR CODE HERE: use putText()
-12. Draw a magenta rectangle that encompasses the launch tower and the rocket.
-rect_color = magenta
-# YOUR CODE HERE
-13. Display the final annotated image.
-# YOUR CODE HERE
-14. Read the image ('Boy.jpg').
-# YOUR CODE HERE
-15. Adjust the brightness of the image.
-# Create a matrix of ones (with data type float64)
-# matrix_ones = 
-# YOUR CODE HERE
-16. Create brighter and darker images.
-img_brighter = cv2.add(img, matrix)
-img_darker = cv2.subtract(img, matrix)
-# YOUR CODE HERE
-17. Display the images (Original Image, Darker Image, Brighter Image).
-# YOUR CODE HERE
-18. Modify the image contrast.
-# Create two higher contrast images using the 'scale' option with factors of 1.1 and 1.2 (without overflow fix)
-matrix1 = 
-matrix2 = 
-# img_higher1 = 
-# img_higher2 = 
-# YOUR CODE HERE
-19. Display the images (Original, Lower Contrast, Higher Contrast).
-# YOUR CODE HERE
-20. Split the image (boy.jpg) into the B,G,R components & Display the channels.
-# YOUR CODE HERE
-21. Merged the R, G, B , displays along with the original image
-# YOUR CODE HERE
-22. Split the image into the H, S, V components & Display the channels.
-# YOUR CODE HERE
-23. Merged the H, S, V, displays along with original image.
-# YOUR CODE HERE
-Output:
+1. Read the image ('Apple.jpg') using OpenCV imread() as a grayscale image.
+```
+img = cv2.imread('city.jpg', cv2.IMREAD_GRAYSCALE)
+```
+Q2: Print image dimensions and channels
+```
+print(f"Width: {img.shape[1]}, Height: {img.shape[0]}, Channels: {len(img.shape)}")
+```
+Q3: Display grayscale image
+```
+plt.imshow(img, cmap='gray')
+plt.show()
+```
+Q4: Save image as PNG
+```
+cv2.imwrite('city.png', img)
+```
+Q5: Read PNG as color image
+```
+img_color = cv2.imread('city.png')
+img_rgb = cv2.cvtColor(img_color, cv2.COLOR_BGR2RGB)
+```
+Q6: Display color image and print dimensions
+```
+plt.imshow(img_rgb)
+plt.show()
+print(f"Width: {img_rgb.shape[1]}, Height: {img_rgb.shape[0]}, Channels: {img_rgb.shape[2]}")
+```
+Q7: Crop image
+```
+roi = img_rgb[100:400, 150:500]  # [y1:y2, x1:x2]
+```
+Q8: Resize image by 2x
+```
+resized = cv2.resize(img_rgb, (img_rgb.shape[1]*2, img_rgb.shape[0]*2))
+```
+Q9: Flip image horizontally
+```
+flipped = cv2.flip(roi, 1)
+```
+Q10: Read image and convert to RGB
+```
+img = cv2.imread('city.jpg')
+img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+```
+Q11: Add centered text
+```
+text = "Smart City View"
+font = cv2.FONT_HERSHEY_SIMPLEX
+cv2.putText(img_rgb, text, (50, img_rgb.shape[0]-30), font, 1, (255,255,255), 2)
+```
+Q12: Draw rectangle around object
+```
+cv2.rectangle(img_rgb, (x1, y1), (x2, y2), (255, 0, 255), 2)  # Magenta rectangle
+```
+Q13: Display annotated image
+```
+plt.imshow(img_rgb)
+plt.show()
+```
+Q14: Read image again
+```
+img = cv2.imread('city.jpg')
+```
+Q15: Adjust brightness with ones matrix
+```
+ones = np.ones(img.shape, dtype=np.uint8) * 50
+```
+Q16: Create brighter and darker versions
+```
+brighter = cv2.add(img, ones)
+darker = cv2.subtract(img, ones)
+```
+Q17: Display original, darker, and brighter images
+```
+fig, axes = plt.subplots(1, 3, figsize=(15, 5))
+axes[0].imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+axes[0].set_title("Original")
+axes[1].imshow(cv2.cvtColor(darker, cv2.COLOR_BGR2RGB))
+axes[1].set_title("Darker")
+axes[2].imshow(cv2.cvtColor(brighter, cv2.COLOR_BGR2RGB))
+axes[2].set_title("Brighter")
+plt.show()
+```
+Q18: Adjust contrast with scaling factors
+```
+contrast_1_1 = (img.astype(np.float32) * 1.1).astype(np.uint8)
+contrast_1_2 = (img.astype(np.float32) * 1.2).astype(np.uint8)
+```
+Q19: Display original, lower, and higher contrast images
+```
+fig, axes = plt.subplots(1, 3, figsize=(15, 5))
+axes[0].imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+axes[0].set_title("Original")
+axes[1].imshow(cv2.cvtColor(contrast_1_1, cv2.COLOR_BGR2RGB))
+axes[1].set_title("Contrast 1.1x")
+axes[2].imshow(cv2.cvtColor(contrast_1_2, cv2.COLOR_BGR2RGB))
+axes[2].set_title("Contrast 1.2x")
+plt.show()
+```
+Q20: Split and display BGR channels
+```
+b, g, r = cv2.split(img)
+fig, axes = plt.subplots(1, 3, figsize=(15, 5))
+axes[0].imshow(b, cmap='gray')
+axes[0].set_title("Blue")
+axes[1].imshow(g, cmap='gray')
+axes[1].set_title("Green")
+axes[2].imshow(r, cmap='gray')
+axes[2].set_title("Red")
+plt.show()
+```
+Q21: Merge BGR channels with original
+```
+merged = cv2.merge([b, g, r])
+fig, axes = plt.subplots(1, 4, figsize=(20, 5))
+axes[0].imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+axes[0].set_title("Original")
+axes[1].imshow(b, cmap='gray')
+axes[1].set_title("Blue")
+axes[2].imshow(g, cmap='gray')
+axes[2].set_title("Green")
+axes[3].imshow(r, cmap='gray')
+axes[3].set_title("Red")
+plt.show()
+```
+Q22: Split and display HSV channels
+```
+img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+h, s, v = cv2.split(img_hsv)
+fig, axes = plt.subplots(1, 3, figsize=(15, 5))
+axes[0].imshow(h, cmap='hsv')
+axes[0].set_title("Hue")
+axes[1].imshow(s, cmap='gray')
+axes[1].set_title("Saturation")
+axes[2].imshow(v, cmap='gray')
+axes[2].set_title("Value")
+plt.show()
+```
+Q23: Merge HSV channels with original
+```
+merged_hsv = cv2.merge([h, s, v])
+result = cv2.cvtColor(merged_hsv, cv2.COLOR_HSV2BGR)
+fig, axes = plt.subplots(1, 4, figsize=(20, 5))
+axes[0].imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+axes[0].set_title("Original")
+axes[1].imshow(h, cmap='hsv')
+axes[1].set_title("Hue")
+axes[2].imshow(s, cmap='gray')
+axes[2].set_title("Saturation")
+axes[3].imshow(v, cmap='gray')
+axes[3].set_title("Value")
+plt.show()
+```
+
+# Output:
 i) Read and Display an Image.
 <img width="436" height="417" alt="image" src="https://github.com/user-attachments/assets/c53e5fd5-9c6a-4a84-a946-3b0a4275a550" />
 <img width="441" height="447" alt="image" src="https://github.com/user-attachments/assets/b9a61db9-435c-45a7-a8ea-f37ad9a28841" />
